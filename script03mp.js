@@ -93,14 +93,36 @@ const reloadCard = () => {
         if(value != null){
             let newDiv = document.createElement("li");
             newDiv.innerHTML = `
+                <div><img src="img/${value.images}"></div>
+                <div class="cardTile">${value.name}</div>
+                <div class="cardPrice">${value.price.toLocaleString()}</div>
+
+                <div>
+                    <button style="background-color: #560bad;" class="cardButton" onclick="changeQuantity(${key}, ${value.quantity - 1})">-</button>
+                    <div class="count">${value.quantity}</div>
+                    <button style="background-color: #560bad;" class="cardButton" onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
+                </div>
             `;
             listCard.appendChild(newDiv);
         }
+
+        total.innerText = totalPrice.toLocaleString();
+        quantity.innerText = count;
     })
 }
 
 
+const changeQuantity = (key, quantity) => {
+    if(quantity == 0){
+        delete listCards[key]
+    }
+    else{
+        listCards[key].quantity = quantity;
+        listCards[key].price = quantity * products[key].price;
+    }
 
+    reloadCard();
+}
 
 
 
