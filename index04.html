@@ -20,47 +20,60 @@
 
     <main>
         <div class="container">
-            <div class="products">
+            <div class="products"><!--
                 <div class="product">
                     <img src="https://placehold.co/300" alt="">
                     <h3>Product Name</h3>
                     <h5>$99.99</h5>
-                    <button>Add to Cart</button>
+                    <button disabled>Add to Cart</button>
                 </div>
                 <div class="product">
                     <img src="https://placehold.co/300" alt="">
                     <h3>Product Name</h3>
                     <h5>$99.99</h5>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="product">
-                    <img src="https://placehold.co/300" alt="">
-                    <h3>Product Name</h3>
-                    <h5>$99.99</h5>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="product">
-                    <img src="https://placehold.co/300" alt="">
-                    <h3>Product Name</h3>
-                    <h5>$99.99</h5>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="product">
-                    <img src="https://placehold.co/300" alt="">
-                    <h3>Product Name</h3>
-                    <h5>$99.99</h5>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="product">
-                    <img src="https://placehold.co/300" alt="">
-                    <h3>Product Name</h3>
-                    <h5>$99.99</h5>
-                    <button>Add to Cart</button>
-                </div>
+                    <button disabled>Add to Cart</button>
+                </div>-->
             </div>
         </div>
     </main>
 
+    <div class="cart-overlay"></div>
+
+    <div class="cart">
+        <div class="cart-header">
+            <i class="bi bi-arrow-right cart-close"></i>
+            <h2>Your Cart</h2>
+        </div>
+        <div class="cart-body">
+            <div class="cart-item">
+                <div class="cart-item-details">
+                    <img src="https://placehold.co/300" alt="">
+                    <h3>Product Name</h3>
+                    <h5>$99.99</h5>
+                    <div class="cart-item-amount">
+                        <i class="bi bi-dash-lg"></i>
+                        <span class="qty">0</span>
+                        <i class="bi bi-plus-lg"></i>
+
+                        <span class="cart-item-price">0</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="cart-footer">
+            <div>
+                <strong>Total</strong>
+                <span class="cart-total">0</span>
+            </div>
+            <button class="cart-clear">Clear Cart</button>
+            <button class="checkout">Checkout</button>
+        </div>
+    </div>
+    
     <script src="script04mp.js"></script>
 </body>
 </html>
+
+
+<div class="cart-empty">Your Cart is Empty.</div>
