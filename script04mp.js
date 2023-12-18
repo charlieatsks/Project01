@@ -19,6 +19,14 @@ const Selectors = {
 
 const setupListerners = () => {
     document.addEventListener("DOMContentLoaded", initStore);
+
+    // product event
+    selectors.products.addEventListener('click', addToCart)
+
+    // cart events
+    selectors.cartBtn.addEventListener('click', showCart);
+    selectors.cartOverlay.addEventListener('click', hideCart);
+    selectors.cartClose.addEventListener('click', hideCart);
 };
 
 //* event handlers
@@ -32,9 +40,68 @@ const initStore = () => {
         .then((json) => console.log(json));*/
 };
 
+const showCart = () => {
+    selectors.cart.classList.add("show");
+    selectors.cartOverlay.classList.add("show");
+};
+
+const hideCart = () => {
+    selectors.cart.classList.remove("show");
+    selectors.cartOverlay.classList.remove("show");
+};
+
+const addToCart = (e) => {
+    //console.log(e.target);
+    if(e.target.hasAttribute('data-id')) {
+        //console.log('add item');
+        const id = parseInt(e.target.dataset.id);
+        const inCart = cart.find((x) => x.id ===id);
+
+        if (inCart){
+            alert("Item is already in Cart.");
+            return;
+        }
+
+        cart.push({id, qty: 1 });
+        renderProducts();
+        renderCart();
+        showCart();
+    }
+};
+
 //* render functions
+
+const renderCart = () => {
+    selectors.cartBody.innerHTML = cart.map(({ id, qty }) => {
+        //const { id, qty } = item;
+        
+        // get item info
+        const product = products.find((x) => x.id === id);
+        const { title, image, price } = product;
+        const amount = price * qty;
+
+        return `
+        <div class="cart-item" data-id="${id}">
+        <img src="${image}" alt="${title}">
+            <div class="cart-item-details">
+                <h3>${title}</h3>
+                <h5>${price}</h5>
+                <div class="cart-item-amount">
+                    <i class="bi bi-dash-lg"></i>
+                    <span class="qty">${qty}</span>
+                    <i class="bi bi-plus-lg"></i>
+
+                    <span class="cart-item-price">${amount}</span>
+                </div>
+            </div>
+        </div>
+        `;
+    }).join('')
+}
+
+
 const renderProducts = () => {
-    Selectors.products.innerHTML = products.map((product) => {
+    selectors.products.innerHTML = products.map((product) => {
         const {id, title, image, price } = product;
         //console.log(title);
         // check if product is already in cart
@@ -52,8 +119,10 @@ const renderProducts = () => {
             <button ${disabled} data-id=${id}>${text}</button>
         </div>
         `;
-    });
+    })
+    .join("");
 };
+
 
 //* API Functions
 
@@ -77,3 +146,4 @@ const loadProducts = async (apiURL) => {
 setupListerners();
 
 
+//37:10
