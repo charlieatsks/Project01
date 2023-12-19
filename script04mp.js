@@ -12,6 +12,7 @@ const Selectors = {
     cartOverlay: document.querySelector(".cart-overlay"),
     cartClear: document.querySelector(".cart-clear"),
     cartBody: document.querySelector(".cart-body"),
+    cartTotal: document.querySelector(".cart-total"),
 }
 
 
@@ -27,6 +28,8 @@ const setupListerners = () => {
     selectors.cartBtn.addEventListener('click', showCart);
     selectors.cartOverlay.addEventListener('click', hideCart);
     selectors.cartClose.addEventListener('click', hideCart);
+    selectors.cartBody.addEventListener('click', updateCart);
+    selectors.cartClear.addEventListener('click', clearCart);
 };
 
 //* event handlers
@@ -50,6 +53,13 @@ const hideCart = () => {
     selectors.cartOverlay.classList.remove("show");
 };
 
+const clearCart = () => {
+    cart = [];
+    renderCart();
+    renderProducts();
+    setInterval(hideCart, 500);
+};
+
 const addToCart = (e) => {
     //console.log(e.target);
     if(e.target.hasAttribute('data-id')) {
@@ -69,35 +79,86 @@ const addToCart = (e) => {
     }
 };
 
+const removeFromCart = (id) => {
+    cart = cart.filter((x) => x.id !== id);
+
+    //renderCart();
+    renderProducts();
+}
+
+const increaseQty = (id) => {
+    const item = cart.find((x) => x.id === id);
+    if (!item) return;
+
+    item.qty++;
+};
+
+const decreaseQty = (id) => {
+    const item = cart.find((x) => x.id === id);
+    if (!item) return;
+
+    item.qty--;
+
+    if(item.qty === 0) removeFromCart(id);
+};
+
+const updateCart = (e) => {
+    if(e.target.hasAttribute('data-btn')) {
+        const cartItem = e.target.closest('.cart-item');
+        const btn = e.target.dataset.btn;
+        const id = parseInt(cartItem.dataset.id);
+
+        btn === "incr" && increaseQty(id);
+        btn === "decr" && decreaseQty(id);
+
+        renderCart();
+    }
+};
+
 //* render functions
 
 const renderCart = () => {
+
+    // show cart qty in navbar
+    selectors.cartQty.textContent = cart.reduce((sum, item) => {
+        return sum + item.qty;
+    }, 0);
+    
+    // show cart total
+    selectors.cartTotal.textContent = calculateTotal();
+
+    // show empty cart
+    if (cart.length === 0) {
+        selectors.cartBody.innerHTML = '<div class="cart-empty">Your cart is empty. </div>';
+        return;
+    }
+
+    // show cart items
     selectors.cartBody.innerHTML = cart.map(({ id, qty }) => {
         //const { id, qty } = item;
-        
-        // get item info
+        // get product info of each cart item
         const product = products.find((x) => x.id === id);
         const { title, image, price } = product;
         const amount = price * qty;
 
         return `
         <div class="cart-item" data-id="${id}">
-        <img src="${image}" alt="${title}">
+            <img src="${image}" alt="${title}">
             <div class="cart-item-details">
                 <h3>${title}</h3>
                 <h5>${price}</h5>
                 <div class="cart-item-amount">
-                    <i class="bi bi-dash-lg"></i>
+                    <i class="bi bi-dash-lg" data-btn="decr"></i>
                     <span class="qty">${qty}</span>
-                    <i class="bi bi-plus-lg"></i>
+                    <i class="bi bi-plus-lg" data-btn="incr"></i>
 
                     <span class="cart-item-price">${amount}</span>
                 </div>
             </div>
         </div>
         `;
-    }).join('')
-}
+    }).join('');
+};
 
 
 const renderProducts = () => {
@@ -141,9 +202,21 @@ const loadProducts = async (apiURL) => {
 
 //* Helper Functions
 
+const calculateTotal = () => {
+    //const total = cart.map
+    return cart.map(({ id, qty }) => {
+        const { price } = products.find((x) => x.id === id);
+
+        return qty * price;
+    })
+    .reduce((sum, number) => {
+        return sum + number;
+    }, 0);
+};
+
 //* Initialize
 
 setupListerners();
 
 
-//37:10
+//46:10
