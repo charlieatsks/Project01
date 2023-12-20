@@ -37,8 +37,9 @@ const setupListerners = () => {
 const initStore = () => {
     /*fetch("https://faketoreapi.com/products/1")
     .then(renderProducts);*/
+    loadCart();
     loadProducts("https://faketoreapi.com/products")
-    .then (renderProducts);
+    .then (renderProducts).finally(renderCart);
        /* .then((res) => res.json())
         .then((json) => console.log(json));*/
 };
@@ -55,6 +56,7 @@ const hideCart = () => {
 
 const clearCart = () => {
     cart = [];
+    saveCart();
     renderCart();
     renderProducts();
     setInterval(hideCart, 500);
@@ -73,6 +75,7 @@ const addToCart = (e) => {
         }
 
         cart.push({id, qty: 1 });
+        saveCart();
         renderProducts();
         renderCart();
         showCart();
@@ -81,6 +84,9 @@ const addToCart = (e) => {
 
 const removeFromCart = (id) => {
     cart = cart.filter((x) => x.id !== id);
+
+    // if the last item is remove , close the cart 
+    //cart.length === 0 && setTimeout(hideCart, 500);
 
     //renderCart();
     renderProducts();
@@ -111,8 +117,17 @@ const updateCart = (e) => {
         btn === "incr" && increaseQty(id);
         btn === "decr" && decreaseQty(id);
 
+        saveCart();
         renderCart();
     }
+};
+
+const saveCart = () => {
+    localStorage.setItem('online-store', JSON.stringify(cart));
+}
+
+const loadCart = () => {
+    cart = JSON.parse(localStorage.getItem('online-store')) || [];
 };
 
 //* render functions
@@ -120,12 +135,19 @@ const updateCart = (e) => {
 const renderCart = () => {
 
     // show cart qty in navbar
-    selectors.cartQty.textContent = cart.reduce((sum, item) => {
+    const cartQty = cart.reduce((sum, item) => {
         return sum + item.qty;
     }, 0);
+
+    selectors.cartQty.textContent = cartQty;
+    selectors.cartQty.classList.toggle("visible", cartQty);
+
+    /*selectors.cartQty.textContent = cart.reduce((sum, item) => {
+        return sum + item.qty;
+    }, 0);*/
     
     // show cart total
-    selectors.cartTotal.textContent = calculateTotal();
+    selectors.cartTotal.textContent = calculateTotal().format();
 
     // show empty cart
     if (cart.length === 0) {
@@ -146,13 +168,13 @@ const renderCart = () => {
             <img src="${image}" alt="${title}">
             <div class="cart-item-details">
                 <h3>${title}</h3>
-                <h5>${price}</h5>
+                <h5>${price.format()}</h5>
                 <div class="cart-item-amount">
                     <i class="bi bi-dash-lg" data-btn="decr"></i>
                     <span class="qty">${qty}</span>
                     <i class="bi bi-plus-lg" data-btn="incr"></i>
 
-                    <span class="cart-item-price">${amount}</span>
+                    <span class="cart-item-price">${amount.format()}</span>
                 </div>
             </div>
         </div>
@@ -176,7 +198,7 @@ const renderProducts = () => {
         <div class="product">
             <img src="${image}" alt="${title}">
             <h3>${title}</h3>
-            <h5>${price}</h5>
+            <h5>${price.format()}</h5>
             <button ${disabled} data-id=${id}>${text}</button>
         </div>
         `;
@@ -212,6 +234,13 @@ const calculateTotal = () => {
     .reduce((sum, number) => {
         return sum + number;
     }, 0);
+};
+
+Number.prototype.format = function () {
+    return this.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+    });
 };
 
 //* Initialize
