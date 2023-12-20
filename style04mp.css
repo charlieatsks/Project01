@@ -23,6 +23,11 @@ body{
     min-height: 100vh;
 }
 
+/* prevent body scroll when cart is open */
+body:has(.show) {
+    overflow: hidden;
+}
+
 button {
     cursor: pointer;
     border: none;
@@ -76,6 +81,11 @@ nav > .container {
     background: var(--color7);
     padding: 0 5px;
     border-radius: 3px;
+    display: none;
+}
+
+.cart-qty.visible {
+    display: block;
 }
 
 .container {
@@ -140,7 +150,7 @@ nav > .container {
 }
 
 .product button:disabled::before{
-    content: '\F23F';
+    content: '\F23A';
 }
 
 .product button:hover {
@@ -207,6 +217,11 @@ nav > .container {
     gap: 20px;
     padding-block: 20px;
     overflow: auto;
+}
+
+/* hide footer if the cart is empty */
+.cart-body:has(.cart-empty) + .cart-footer {
+    display: none;
 }
 
 .cart-empty{
