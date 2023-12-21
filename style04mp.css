@@ -47,7 +47,6 @@ nav {
     color: var(--color8);
     padding-block: 20px;
 }
-
 nav > .container {
     display: flex;
     align-items: center;
@@ -64,11 +63,9 @@ nav > .container {
     color: inherit;
     position: relative;
 }
-
 .cart-btn .bi {
     font-size: 1.5rem;
 }
-
 .cart-btn:hover{
     background: var(--color5);
 }
@@ -99,32 +96,26 @@ nav > .container {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
-
 .product {
     text-align: center;
     position: relative;
 }
-
 .product img {
     height: 250px;
     object-fit: contain;
 }
-
 .product:hover img {
     opacity: 0.75;
 }
-
 .product h3{
     margin-top: 10px;
     color: var(--color4);
     font-size: 1rem;
 }
-
 .product h5{
     margin-top: 5px;
     color: var(--color6);
 }
-
 .product button {
     position: absolute;
     top: 10px;
@@ -138,25 +129,20 @@ nav > .container {
     gap: 5px;
     opacity: 0;
 }
-
 .product:hover button{
     opacity: 1;
 }
-
 .product button::before{
     font-family: "bootstrap-icons";
     font-size: 1.25rem;
     content: "\F23F";
 }
-
 .product button:disabled::before{
     content: '\F23A';
 }
-
 .product button:hover {
     background: var(--color2);
 }
-
 .product button:disabled {
     background: var(--color3);
     filter: brightness(1.75);
@@ -235,28 +221,23 @@ nav > .container {
     display: flex;
     gap: 10px;
 }
-
 .cart-item img {
     width: 100px;
     height: 100px;
     object-fit: contain;
 }
-
 .cart-item-detail{
     display: flex;
     flex-direction: column;
     flex: 1;
 }
-
 .cart-item-detail h3{
     font-size: 1rem;
     color: var(--color4);
 }
-
 .cart-item-detail h5{
     color: var(--color6);
 }
-
 .cart-item-amount{
     margin-top: auto;
     display: flex;
@@ -264,20 +245,16 @@ nav > .container {
     gap: 10px;
     font-size: 1.25rem;
 }
-
 .cart-item-amount .bi {
     opacity: 0.25;
 }
-
 .cart-item-amount .bi:hover {
     opacity: 1;
 }
-
 .cart-item-amount .qty {
     width: 2rem;
     text-align: center;
 }
-
 .cart-item-price{
     margin-left: auto;
 }
@@ -289,7 +266,6 @@ nav > .container {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
-
 .cart-footer div{
     grid-column: 1 / -1;
     display: flex;
@@ -297,35 +273,25 @@ nav > .container {
     justify-content: space-between;
     font-size: 1.25rem;
 }
-
 .cart-footer strong{
     font-weight: 500;
     color: var(--color4);
 }
-
 .cart-footer button{
     padding-block: 10px;
     text-decoration: uppercase;
 }
-
 .cart-clear{
     background: var(--color7);
     color: var(--color8);
 }
-
 .cart-clear:hover{
     filter: brightness(1.75);
 }
-
 .checkout{
     background: var(--color1);
     color: var(--color8);
 }
-
 .checkout:hover{
     background: var(--color2);
 }
-
-
-
-
