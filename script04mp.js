@@ -32,6 +32,7 @@ const setupListerners = () => {
     selectors.cartClear.addEventListener('click', clearCart);
 };
 
+
 //* event handlers
 
 const initStore = () => {
@@ -130,6 +131,8 @@ const loadCart = () => {
     cart = JSON.parse(localStorage.getItem('online-store')) || [];
 };
 
+
+
 //* render functions
 
 const renderCart = () => {
@@ -207,6 +210,7 @@ const renderProducts = () => {
 };
 
 
+
 //* API Functions
 
 const loadProducts = async (apiURL) => {
@@ -221,6 +225,8 @@ const loadProducts = async (apiURL) => {
         console.error("fetch error:", error);
     }
 };
+
+
 
 //* Helper Functions
 
@@ -243,9 +249,9 @@ Number.prototype.format = function () {
     });
 };
 
+
 //* Initialize
 
 setupListerners();
 
 
-//46:10
